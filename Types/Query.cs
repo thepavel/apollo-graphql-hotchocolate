@@ -1,12 +1,8 @@
 namespace Odyssey.MusicMatcher;
 
+[GraphQLDescription("An API that delivers music information including artists, albums, and playlists")]
 public class Query
 {
-    public string Hello()
-    {
-        return "Hello world";
-    }
-
     [GraphQLDescription("Playlists hand-picked to be featured to all users.")]
     public List<Playlist> FeaturedPlaylists()
     {
