@@ -1,10 +1,13 @@
 using Odyssey.MusicMatcher;
+using SpotifyWeb;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddHttpClient<SpotifyService>();
+
 builder.Services.AddGraphQLServer()
     .AddQueryType<Query>()
-    .AddType<Playlist>();
+    .RegisterService<SpotifyService>();
 
 builder.Services.AddCors(options =>
 {
@@ -20,10 +23,12 @@ var app = builder.Build();
 
 app.UseCors();
 
+
+app.MapGraphQL();
+
 app.MapGet("/", redirect => {
     redirect.Response.Redirect("/graphql");
     return Task.CompletedTask;
 });
-app.MapGraphQL();
 
 app.Run();
