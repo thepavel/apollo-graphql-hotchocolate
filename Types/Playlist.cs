@@ -10,6 +10,14 @@ public class Playlist
         Id = id;
         Name = name;
     }
+
+    public Playlist(SpotifyWeb.Playlist obj) 
+    {
+        Id = obj.Id;
+        Name = obj.Name;
+        Description = obj.Description;
+    }
+    
     public Playlist(PlaylistSimplified obj)
     {
         Id = obj.Id;
