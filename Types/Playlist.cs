@@ -11,13 +11,16 @@ public class Playlist
         Name = name;
     }
 
-    public Playlist(SpotifyWeb.Playlist obj) 
+    public Playlist(SpotifyWeb.Playlist obj)
     {
         Id = obj.Id;
         Name = obj.Name;
         Description = obj.Description;
+
+        Tracks = [.. obj.Tracks.Items.Select(item => new Track(item.Track))];
+
     }
-    
+
     public Playlist(PlaylistSimplified obj)
     {
         Id = obj.Id;
@@ -34,4 +37,7 @@ public class Playlist
 
     [GraphQLDescription("Describes what the listener should expect")]
     public string? Description { get; set; }
+
+    [GraphQLDescription("The playlist's tracks.")]
+    public List<Track> Tracks { get; set; } = [];
 }
