@@ -5,6 +5,9 @@ namespace Odyssey.MusicMatcher;
 [GraphQLDescription("A curated collection of tracks designed for a specific activity or emotion")]
 public class Playlist
 {
+    private List<Track>? _tracks;
+
+
     public Playlist(string id, string name)
     {
         Id = id;
@@ -17,7 +20,7 @@ public class Playlist
         Name = obj.Name;
         Description = obj.Description;
 
-        Tracks = [.. obj.Tracks.Items.Select(item => new Track(item.Track))];
+        _tracks = [.. obj.Tracks.Items.Select(item => new Track(item.Track))];
 
     }
 
@@ -39,5 +42,14 @@ public class Playlist
     public string? Description { get; set; }
 
     [GraphQLDescription("The playlist's tracks.")]
-    public List<Track> Tracks { get; set; } = [];
+    public async Task<List<Track>> Tracks(SpotifyService spotifyService)
+    {
+        if (_tracks == null)
+        {
+            var response = await spotifyService.GetPlaylistsTracksAsync(this.Id);
+            _tracks = [.. response.Items.Select(item => new Track(item.Track))];
+        }
+        return _tracks;
+
+    }
 }
