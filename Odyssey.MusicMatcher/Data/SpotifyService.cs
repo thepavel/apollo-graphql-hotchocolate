@@ -27,6 +27,7 @@ namespace SpotifyWeb
     [System.CodeDom.Compiler.GeneratedCode("NSwag", "14.3.0.0 (NJsonSchema v11.2.0.0 (Newtonsoft.Json v13.0.0.0))")]
     public partial class SpotifyService 
     {
+
         #pragma warning disable 8618
         private string _baseUrl;
         #pragma warning restore 8618
@@ -41,6 +42,17 @@ namespace SpotifyWeb
         {
             BaseUrl = "https://spotify-demo-api-fe224840a08c.herokuapp.com/v1";
             _httpClient = httpClient;
+            Initialize();
+        }
+
+/// <summary>
+/// Public parameterless constructor 
+/// because nswag skipped making one. needed for mocking service 
+/// </summary>
+        public SpotifyService() 
+        {
+            BaseUrl = "https://spotify-demo-api-fe224840a08c.herokuapp.com/v1";
+            _httpClient = new System.Net.Http.HttpClient();
             Initialize();
         }
 

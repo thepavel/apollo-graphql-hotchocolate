@@ -9,6 +9,7 @@ namespace Odyssey.MusicMatcher.Tests;
 [TestClass]
 public class PlaylistTest
 {
+    
     [TestMethod]
     public void Constructor_InitializesPropertiesCorrectly()
     {
@@ -115,25 +116,30 @@ public class PlaylistTest
         //     Assert.AreEqual(tracks, cachedTracks);
         // }
     
-        // [TestMethod]
-        // public async Task Tracks_HandlesEmptyResponse()
-        // {
-        //     // Arrange
-        //     var id = "test-id";
-        //     var mockSpotifyService = new Mock<SpotifyService>();
-        //     mockSpotifyService
-        //         .Setup(s => s.GetPlaylistsTracksAsync(id))
-        //         .ReturnsAsync(new SpotifyWeb.PlaylistTracksResponse { Items = new List<SpotifyWeb.PlaylistTrack>() });
+        [TestMethod]
+        public async Task Tracks_HandlesEmptyResponse()
+        {
+            // Arrange
+            var id = "test-id";
+            
+            var mockSpotifyService = new Mock<SpotifyService>();
+            mockSpotifyService
+                .Setup(s => s.GetPlaylistsTracksAsync(id))
+                .ReturnsAsync(new SpotifyWeb.PaginatedOfPlaylistTrack
+                {
+                    Items = new List<SpotifyWeb.PlaylistTrack>()
+                });
+                //.ReturnsAsync(new SpotifyWeb.PaginatedOfPlaylistTrack { Items = new List<SpotifyWeb.PlaylistTrack>() });
     
-        //     var playlist = new Playlist(id, "test-name");
+            var playlist = new Playlist(id, "test-name");
     
-        //     // Act
-        //     var tracks = await playlist.Tracks(mockSpotifyService.Object);
+            // Act
+            var tracks = await playlist.Tracks(mockSpotifyService.Object);
     
-        //     // Assert
-        //     Assert.IsNotNull(tracks);
-        //     Assert.IsEmpty(tracks);
-        // }
+            // Assert
+            Assert.IsNotNull(tracks);
+            Assert.IsTrue(tracks.Count == 0);
+        }
     
         // [TestMethod]
         // public async Task Tracks_CachesResults()
