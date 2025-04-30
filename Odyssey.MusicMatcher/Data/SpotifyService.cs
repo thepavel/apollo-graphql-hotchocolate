@@ -45,13 +45,13 @@ namespace SpotifyWeb
             Initialize();
         }
 
-/// <summary>
-/// Public parameterless constructor 
-/// because nswag skipped making one. needed for mocking service 
-/// </summary>
+        /// <summary>
+        /// Public parameterless constructor 
+        /// because nswag skipped making one. needed for mocking service 
+        /// </summary>
         public SpotifyService() 
         {
-            BaseUrl = "https://spotify-demo-api-fe224840a08c.herokuapp.com/v1";
+            BaseUrl = string.Empty; // "https://spotify-demo-api-fe224840a08c.herokuapp.com/v1";
             _httpClient = new System.Net.Http.HttpClient();
             Initialize();
         }
