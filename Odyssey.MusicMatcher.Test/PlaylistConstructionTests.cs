@@ -75,46 +75,47 @@ public class PlaylistTest
 
 
 #region SpotifyServiceTests
-        // [TestMethod]
-        // public async Task Tracks_FetchesTracksFromSpotifyService()
-        // {
-        //     // Arrange
-        //     var id = "test-id";
-        //     var mockSpotifyService = new Mock<SpotifyService>();
-        //     var mockTracks = new List<SpotifyWeb.Track>
-        //     {
-        //         new SpotifyWeb.Track { Id = "track1" },
-        //         new SpotifyWeb.Track { Id = "track2" }
-        //     };
-        //     mockSpotifyService
-        //         .Setup(s => s.GetPlaylistsTracksAsync(id))
-        //         .ReturnsAsync(new SpotifyWeb.PaginatedOfPlaylistTrack
-        //         {
-        //             Items = new List<SpotifyWeb.PlaylistTrack>() 
-        //             {
-        //                 new SpotifyWeb.PlaylistTrack { Track = mockTracks[0] },
-        //                 new SpotifyWeb.PlaylistTrack { Track = mockTracks[1] }
-        //             }
-        //              //mockTracks.Select(t => t.Id == "track1" ? new SpotifyWeb.PlaylistTrack { Track = t } : null).ToList()
-        //         });
+        
+        [TestMethod]
+        public async Task Tracks_FetchesTracksFromSpotifyService()
+        {
+            // Arrange
+            var id = "test-id";
+            var mockSpotifyService = new Mock<SpotifyService>();
+            var mockTracks = new List<PlaylistTrackItem>
+            {
+                new PlaylistTrackItem { Id = "track1" },
+                new PlaylistTrackItem { Id = "track2" }
+            };
+            mockSpotifyService
+                .Setup(s => s.GetPlaylistsTracksAsync(id))
+                .ReturnsAsync(new SpotifyWeb.PaginatedOfPlaylistTrack
+                {
+                    Items =
+                    [
+                        new SpotifyWeb.PlaylistTrack { Track = mockTracks[0] },
+                        new SpotifyWeb.PlaylistTrack { Track = mockTracks[1] }
+                    ]
+                     //mockTracks.Select(t => t.Id == "track1" ? new SpotifyWeb.PlaylistTrack { Track = t } : null).ToList()
+                });
     
     
-        //     var playlist = new Playlist(id, "test-name");
+            var playlist = new Playlist(id, "test-name");
     
-        //     // Act
-        //     var tracks = await playlist.Tracks(mockSpotifyService.Object);
+            // Act
+            var tracks = await playlist.Tracks(mockSpotifyService.Object);
     
-        //     // Assert
-        //     Assert.IsNotNull(tracks);
-        //     Assert.AreEqual(2, tracks.Count);
-        //     Assert.AreEqual("track1", tracks[0].Id);
-        //     Assert.AreEqual("track2", tracks[1].Id);
+            // Assert
+            Assert.IsNotNull(tracks);
+            Assert.AreEqual(2, tracks.Count);
+            Assert.AreEqual("track1", tracks[0].Id);
+            Assert.AreEqual("track2", tracks[1].Id);
     
-        //     // Verify caching
-        //     mockSpotifyService.Verify(s => s.GetPlaylistsTracksAsync(id), Times.Once);
-        //     var cachedTracks = await playlist.Tracks(mockSpotifyService.Object);
-        //     Assert.AreEqual(tracks, cachedTracks);
-        // }
+            // Verify caching
+            mockSpotifyService.Verify(s => s.GetPlaylistsTracksAsync(id), Times.Once);
+            var cachedTracks = await playlist.Tracks(mockSpotifyService.Object);
+            Assert.AreEqual(tracks, cachedTracks);
+        }
     
         [TestMethod]
         public async Task Tracks_HandlesEmptyResponse()
